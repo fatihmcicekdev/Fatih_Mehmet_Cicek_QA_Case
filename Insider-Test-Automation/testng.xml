@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
+<suite name="Insider Test Automation Suite" parallel="tests" thread-count="2" verbose="1">
+    
+    <!-- Listeners -->
+    <listeners>
+        <listener class-name="insider.listeners.TestListener"/>
+    </listeners>
+    
+    <!-- Chrome Browser Tests -->
+    <test name="Insider Careers Tests - Chrome" preserve-order="true">
+        <parameter name="browser" value="chrome"/>
+        <classes>
+            <class name="tests.InsiderCareersTest">
+                <methods>
+                    <include name="testHomePage"/>
+                    <include name="testCareersPage"/>
+                    <include name="testQaPage"/>
+                    <include name="testQAJobsFiltering"/>
+                    <include name="testJobApplicationRedirect"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
+    
+    <!-- Firefox Browser Tests (Optional - uncomment to run) -->
+    <!--
+    <test name="Insider Careers Tests - Firefox" preserve-order="true">
+        <parameter name="browser" value="firefox"/>
+        <classes>
+            <class name="tests.InsiderCareersTest">
+                <methods>
+                    <include name="testHomePage"/>
+                    <include name="testCareersPage"/>
+                    <include name="testQaPage"/>
+                    <include name="testQAJobsFiltering"/>
+                    <include name="testJobApplicationRedirect"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
+    -->
+    
+</suite>
