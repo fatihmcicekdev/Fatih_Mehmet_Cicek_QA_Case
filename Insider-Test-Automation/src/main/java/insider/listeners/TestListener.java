@@ -5,39 +5,40 @@ import insider.reports.ExtentReportManager;
 import insider.utils.ScreenshotUtils;
 import org.openqa.selenium.WebDriver;
 import org.testng.*;
+import insider.utils.LoggerUtil;
 
 public class TestListener implements ITestListener, ISuiteListener {
 
     @Override
     public void onStart(ISuite suite) {
-        System.out.println("\n╔════════════════════════════════════════════════════════════╗");
-        System.out.println("║       INSIDER TEST AUTOMATION - SUITE BAŞLIYOR            ║");
-        System.out.println("║       Suite: " + suite.getName() + "                                  ║");
-        System.out.println("╚════════════════════════════════════════════════════════════╝\n");
+        LoggerUtil.info("\n╔════════════════════════════════════════════════════════════╗");
+        LoggerUtil.info("║       INSIDER TEST AUTOMATION - SUITE BAŞLIYOR            ║");
+        LoggerUtil.info("║       Suite: " + suite.getName() + "                                  ║");
+        LoggerUtil.info("╚════════════════════════════════════════════════════════════╝\n");
         ExtentReportManager.createInstance();
     }
 
     @Override
     public void onFinish(ISuite suite) {
-        System.out.println("\n╔════════════════════════════════════════════════════════════╗");
-        System.out.println("║       INSIDER TEST AUTOMATION - SUITE TAMAMLANDI         ║");
-        System.out.println("║       Suite: " + suite.getName() + "                                  ║");
-        System.out.println("╚════════════════════════════════════════════════════════════╝\n");
+        LoggerUtil.info("\n╔════════════════════════════════════════════════════════════╗");
+        LoggerUtil.info("║       INSIDER TEST AUTOMATION - SUITE TAMAMLANDI         ║");
+        LoggerUtil.info("║       Suite: " + suite.getName() + "                                  ║");
+        LoggerUtil.info("╚════════════════════════════════════════════════════════════╝\n");
         ExtentReportManager.flush();
     }
 
     @Override
     public void onStart(ITestContext context) {
-        System.out.println("\n>>> Test Context Başlıyor: " + context.getName() + " <<<");
+        LoggerUtil.info("\n>>> Test Context Başlıyor: " + context.getName() + " <<<");
     }
 
     @Override
     public void onFinish(ITestContext context) {
-        System.out.println("\n>>> Test Context Bitti: " + context.getName() + " <<<");
-        System.out.println("Toplam Test: " + context.getAllTestMethods().length);
-        System.out.println("Başarılı: " + context.getPassedTests().size());
-        System.out.println("Başarısız: " + context.getFailedTests().size());
-        System.out.println("Atlanan: " + context.getSkippedTests().size());
+        LoggerUtil.info("\n>>> Test Context Bitti: " + context.getName() + " <<<");
+        LoggerUtil.info("Toplam Test: " + context.getAllTestMethods().length);
+        LoggerUtil.info("Başarılı: " + context.getPassedTests().size());
+        LoggerUtil.info("Başarısız: " + context.getFailedTests().size());
+        LoggerUtil.info("Atlanan: " + context.getSkippedTests().size());
     }
 
     @Override
@@ -46,7 +47,7 @@ public class TestListener implements ITestListener, ISuiteListener {
         String description = result.getMethod().getDescription();
         String className = result.getTestClass().getName();
         
-        System.out.println("\n▶▶▶ Test Başladı: " + testName);
+        LoggerUtil.info("\n▶▶▶ Test Başladı: " + testName);
         
         ExtentReportManager.createTest(
             testName,
@@ -61,7 +62,7 @@ public class TestListener implements ITestListener, ISuiteListener {
         String testName = result.getMethod().getMethodName();
         long duration = result.getEndMillis() - result.getStartMillis();
         
-        System.out.println("✓✓✓ Test BAŞARILI: " + testName + " (Süre: " + duration + "ms)");
+        LoggerUtil.success("✓✓✓ Test BAŞARILI: " + testName + " (Süre: " + duration + "ms)");
         
         ExtentReportManager.pass("Test başarıyla tamamlandı");
         ExtentReportManager.info("Test süresi: " + duration + " ms");
@@ -74,8 +75,8 @@ public class TestListener implements ITestListener, ISuiteListener {
         Throwable throwable = result.getThrowable();
         long duration = result.getEndMillis() - result.getStartMillis();
         
-        System.err.println("✗✗✗ Test BAŞARISIZ: " + testName + " (Süre: " + duration + "ms)");
-        System.err.println("Hata: " + (throwable != null ? throwable.getMessage() : "Bilinmeyen hata"));
+        LoggerUtil.error("✗✗✗ Test BAŞARISIZ: " + testName + " (Süre: " + duration + "ms)");
+        LoggerUtil.error("Hata: " + (throwable != null ? throwable.getMessage() : "Bilinmeyen hata"));
         
         // Extent Report'a hata bilgisi ekle
         ExtentReportManager.fail("Test başarısız oldu");
@@ -99,7 +100,7 @@ public class TestListener implements ITestListener, ISuiteListener {
                 }
             }
         } catch (Exception e) {
-            System.err.println("Screenshot alınamadı: " + e.getMessage());
+            LoggerUtil.error("Screenshot alınamadı: " + e.getMessage());
             ExtentReportManager.warning("Screenshot alınamadı: " + e.getMessage());
         }
         
@@ -111,9 +112,9 @@ public class TestListener implements ITestListener, ISuiteListener {
         String testName = result.getMethod().getMethodName();
         Throwable throwable = result.getThrowable();
         
-        System.out.println("⊘⊘⊘ Test ATLANDI: " + testName);
+        LoggerUtil.warn("⊘⊘⊘ Test ATLANDI: " + testName);
         if (throwable != null) {
-            System.out.println("Sebep: " + throwable.getMessage());
+            LoggerUtil.warn("Sebep: " + throwable.getMessage());
         }
         
         ExtentReportManager.skip("Test atlandı");
@@ -127,7 +128,7 @@ public class TestListener implements ITestListener, ISuiteListener {
     @Override
     public void onTestFailedButWithinSuccessPercentage(ITestResult result) {
         String testName = result.getMethod().getMethodName();
-        System.out.println("⚠ Test Kısmi Başarılı: " + testName);
+        LoggerUtil.warn("Test Kısmi Başarılı: " + testName);
         
         ExtentReportManager.warning("Test kısmi olarak başarılı");
         ExtentReportManager.removeTest();

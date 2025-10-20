@@ -1,5 +1,6 @@
 package insider.base;
 
+import insider.utils.LoggerUtil;
 import org.openqa.selenium.*;
 import org.openqa.selenium.support.PageFactory;
 import org.openqa.selenium.support.ui.ExpectedConditions;
@@ -46,9 +47,9 @@ public class BasePage {
             By cookieButton = By.xpath("//*[@id='wt-cli-accept-all-btn']");
             WebElement cookieElement = wait.until(ExpectedConditions.elementToBeClickable(cookieButton));
             cookieElement.click();
-            System.out.println("Cookies accepted successfully");
+            LoggerUtil.success("Cookies accepted successfully");
         } catch (Exception e) {
-            System.out.println("Cookie banner not found or already accepted: " + e.getMessage());
+            LoggerUtil.info("Cookie banner not found or already accepted");
         }
     }
 }

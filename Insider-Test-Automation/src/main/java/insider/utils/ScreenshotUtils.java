@@ -19,16 +19,16 @@ public class ScreenshotUtils {
         if (!screenshotDir.exists()) {
             boolean created = screenshotDir.mkdirs();
             if (created) {
-                System.out.println("Screenshot dizini oluşturuldu: " + screenshotDir.getAbsolutePath());
+                LoggerUtil.success("Screenshot dizini oluşturuldu: " + screenshotDir.getAbsolutePath());
             } else {
-                System.err.println("Screenshot dizini oluşturulamadı!");
+                LoggerUtil.error("Screenshot dizini oluşturulamadı!");
             }
         }
     }
 
     public static String takeScreenshot(WebDriver driver, String testName) {
         if (driver == null) {
-            System.err.println("WebDriver null, screenshot alınamadı!");
+            LoggerUtil.error("WebDriver null, screenshot alınamadı!");
             return null;
         }
 
@@ -43,29 +43,11 @@ public class ScreenshotUtils {
             File destFile = new File(filePath);
             FileUtils.copyFile(srcFile, destFile);
             
-            System.out.println("Screenshot kaydedildi: " + destFile.getAbsolutePath());
+            LoggerUtil.success("Screenshot kaydedildi: " + destFile.getAbsolutePath());
             return destFile.getAbsolutePath();
             
         } catch (IOException e) {
-            System.err.println("Screenshot kaydedilemedi: " + e.getMessage());
-            return null;
-        }
-    }
-
-    public static String takeScreenshotWithCustomName(WebDriver driver, String customName) {
-        return takeScreenshot(driver, customName);
-    }
-
-    public static String getBase64Screenshot(WebDriver driver) {
-        if (driver == null) {
-            return null;
-        }
-        
-        try {
-            TakesScreenshot screenshot = (TakesScreenshot) driver;
-            return screenshot.getScreenshotAs(OutputType.BASE64);
-        } catch (Exception e) {
-            System.err.println("Base64 screenshot alınamadı: " + e.getMessage());
+            LoggerUtil.error("Screenshot kaydedilemedi: " + e.getMessage());
             return null;
         }
     }

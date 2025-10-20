@@ -22,7 +22,7 @@ public final class FrameworkConstants {
     // Test Info
     public static final String TESTER_NAME = "Fatih Mehmet Cicek";
     public static final String PROJECT_NAME = "Insider UI Test Automation";
-    public static final String ENVIRONMENT = "QA";
+    public static final String ENVIRONMENT = "Production";
     
     // Wait Messages
     public static final String ELEMENT_NOT_FOUND = "Element bulunamadı";

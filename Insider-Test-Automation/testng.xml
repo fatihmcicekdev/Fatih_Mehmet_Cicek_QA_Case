@@ -1,5 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
+<!-- 
+    PARALLEL EXECUTION STRATEGY:
+    - parallel="tests" : Chrome ve Firefox aynı anda koşar
+    - thread-count="2" : 2 browser aynı anda (Chrome + Firefox)
+    - preserve-order="true" : Her browser'ın testleri sırayla koşar (race condition yok)
+-->
 <suite name="Insider Test Automation Suite" parallel="tests" thread-count="2" verbose="1">
     
     <!-- Listeners -->
@@ -7,7 +13,7 @@
         <listener class-name="insider.listeners.TestListener"/>
     </listeners>
     
-    <!-- Chrome Browser Tests -->
+    <!-- Chrome Browser Tests (Sequential within Chrome) -->
     <test name="Insider Careers Tests - Chrome" preserve-order="true">
         <parameter name="browser" value="chrome"/>
         <classes>
@@ -15,30 +21,24 @@
                 <methods>
                     <include name="testHomePage"/>
                     <include name="testCareersPage"/>
-                    <include name="testQaPage"/>
-                    <include name="testQAJobsFiltering"/>
-                    <include name="testJobApplicationRedirect"/>
+                    <include name="testOpenPositionsAndLocationFilter"/>
                 </methods>
             </class>
         </classes>
     </test>
     
-    <!-- Firefox Browser Tests (Optional - uncomment to run) -->
-    <!--
-    <test name="Insider Careers Tests - Firefox" preserve-order="true">
+    <!-- Firefox Browser Tests (Sequential within Firefox) -->
+    <!-- <test name="Insider Careers Tests - Firefox" preserve-order="true">
         <parameter name="browser" value="firefox"/>
         <classes>
             <class name="tests.InsiderCareersTest">
                 <methods>
                     <include name="testHomePage"/>
                     <include name="testCareersPage"/>
-                    <include name="testQaPage"/>
-                    <include name="testQAJobsFiltering"/>
-                    <include name="testJobApplicationRedirect"/>
+                    <include name="testOpenPositionsAndLocationFilter"/>
                 </methods>
             </class>
         </classes>
-    </test>
-    -->
+    </test> -->
     
 </suite>

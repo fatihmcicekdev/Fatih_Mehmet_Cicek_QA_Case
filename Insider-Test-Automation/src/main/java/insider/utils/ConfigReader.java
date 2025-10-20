@@ -29,12 +29,16 @@ public class ConfigReader {
         return getProperty("base.url");
     }
 
-    public static String getCareersQaUrl() {
-        return getProperty("careers.qa.url");
+    public static String getCareersUrl() {
+        return getProperty("careers.url");
     }
 
-    public static String getJobPosition() {
-        return getProperty("job.position");
+    public static String getOpenPositionsUrl() {
+        return getProperty("open.positions.url");
+    }
+
+    public static String getLeverJobUrlPattern() {
+        return getProperty("lever.job.url.pattern");
     }
 
     public static String getJobDepartment() {
@@ -45,6 +49,10 @@ public class ConfigReader {
         return getProperty("job.location");
     }
 
+    public static String getPageTitleCareers() {
+        return getProperty("page.title.careers");
+    }
+
     public static String getScreenshotPath() {
         return getProperty("screenshot.path");
     }
@@ -52,21 +60,6 @@ public class ConfigReader {
     public static String getDefaultBrowser() {
         String browser = getProperty("default.browser");
         return browser != null ? browser : "chrome";
-    }
-
-    public static int getImplicitWait() {
-        String wait = getProperty("implicit.wait");
-        return wait != null ? Integer.parseInt(wait) : 10;
-    }
-
-    public static int getExplicitWait() {
-        String wait = getProperty("explicit.wait");
-        return wait != null ? Integer.parseInt(wait) : 20;
-    }
-
-    public static int getPageLoadTimeout() {
-        String timeout = getProperty("page.load.timeout");
-        return timeout != null ? Integer.parseInt(timeout) : 30;
     }
 }
 

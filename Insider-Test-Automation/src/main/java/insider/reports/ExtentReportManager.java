@@ -10,6 +10,7 @@ import insider.constants.FrameworkConstants;
 import java.io.File;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import insider.utils.LoggerUtil;
 
 public class ExtentReportManager {
 
@@ -51,7 +52,7 @@ public class ExtentReportManager {
             extent.setSystemInfo("Java Version", System.getProperty("java.version"));
             extent.setSystemInfo("User", System.getProperty("user.name"));
 
-            System.out.println("Extent Report oluşturuldu: " + reportPath);
+            LoggerUtil.success("Extent Report oluşturuldu: " + reportPath);
         }
         return extent;
     }
@@ -119,21 +120,15 @@ public class ExtentReportManager {
             try {
                 getTest().addScreenCaptureFromPath(screenshotPath);
             } catch (Exception e) {
-                System.err.println("Screenshot eklenemedi: " + e.getMessage());
+                LoggerUtil.error("Screenshot eklenemedi: " + e.getMessage());
             }
-        }
-    }
-
-    public static void addBase64Screenshot(String base64Screenshot) {
-        if (getTest() != null && base64Screenshot != null) {
-            getTest().addScreenCaptureFromBase64String(base64Screenshot);
         }
     }
 
     public static synchronized void flush() {
         if (extent != null) {
             extent.flush();
-            System.out.println("Extent Report kaydedildi");
+            LoggerUtil.info("Extent Report kaydedildi");
         }
     }
 }

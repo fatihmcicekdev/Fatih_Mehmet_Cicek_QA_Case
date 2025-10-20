@@ -2,20 +2,21 @@
 <Configuration status="WARN">
     <Properties>
         <Property name="basePath">logs</Property>
-        <Property name="pattern">%d{yyyy-MM-dd HH:mm:ss} %-5p %c{1}:%L - %m%n</Property>
+        <Property name="consolePattern">%m%n</Property>
+        <Property name="filePattern">%d{yyyy-MM-dd HH:mm:ss.SSS} [%t] %-5level %logger{36} - %m%n</Property>
     </Properties>
     
     <Appenders>
-        <!-- Console Appender -->
+        <!-- Console Appender (Sadece mesaj, renkler LoggerUtil'den) -->
         <Console name="Console" target="SYSTEM_OUT">
-            <PatternLayout pattern="${pattern}"/>
+            <PatternLayout pattern="${consolePattern}" disableAnsi="false"/>
         </Console>
         
-        <!-- File Appender -->
+        <!-- File Appender (Detaylı bilgi) -->
         <RollingFile name="FileLogger" 
                      fileName="${basePath}/test-automation.log"
                      filePattern="${basePath}/test-automation-%d{yyyy-MM-dd}-%i.log">
-            <PatternLayout pattern="${pattern}"/>
+            <PatternLayout pattern="${filePattern}"/>
             <Policies>
                 <TimeBasedTriggeringPolicy interval="1" modulate="true"/>
                 <SizeBasedTriggeringPolicy size="10MB"/>
@@ -32,13 +33,18 @@
         </Root>
         
         <!-- Custom Logger for Insider Package -->
-        <Logger name="insider" level="debug" additivity="false">
+        <Logger name="insider" level="info" additivity="false">
             <AppenderRef ref="Console"/>
             <AppenderRef ref="FileLogger"/>
         </Logger>
         
-        <!-- Selenium Logger -->
-        <Logger name="org.openqa.selenium" level="warn" additivity="false">
+        <!-- Selenium Logger (Sadece Error) -->
+        <Logger name="org.openqa.selenium" level="error" additivity="false">
+            <AppenderRef ref="Console"/>
+        </Logger>
+        
+        <!-- WebDriverManager Logger (Sadece Warn) -->
+        <Logger name="io.github.bonigarcia.wdm" level="warn" additivity="false">
             <AppenderRef ref="Console"/>
         </Logger>
     </Loggers>

@@ -1,5 +1,6 @@
 package insider.driver;
 
+import insider.utils.LoggerUtil;
 import io.github.bonigarcia.wdm.WebDriverManager;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
@@ -132,7 +133,7 @@ public class DriverManager {
             try {
                 driver.get().quit();
             } catch (Exception e) {
-                System.err.println("Error while quitting driver: " + e.getMessage());
+                LoggerUtil.error("Error while quitting driver: " + e.getMessage());
             } finally {
                 driver.remove();
             }
